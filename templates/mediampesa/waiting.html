@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block title %}CheckoutWaiting - MediaHub{% endblock %}
+{% block content %}
+<style>
+    .spinner {
+        border: 16px solid #f3f3f3;
+        border-top: 16px solid #3498db;
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+        animation: spin 2s linear infinite;
+        margin: 100px auto;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+</style>
+<div style="text-align: center">
+   <div class="spinner"></div>
+   <h3>A pop-up has appeared on your phone. We are processing your payment.....</h3>
+   <p id="status-message"></p>
+</div>
+<script>
+const transactionId = "";
+const BASE_URL = "";
+
+let checkStatusInterval = setInterval(function () {
+  console.log("Checking transaction status...");
+  fetch(`${BASE_URL}mediampesa/check-status/${transactionId}/`)
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(JSON.stringify(data))
+      if (data.status === "Success") {
+        clearInterval(checkStatusInterval);
+        window.location.href = ``;
+      } else if (data.status === "Failed") {
+        clearInterval(checkStatusInterval);
+        window.location.href = ``;
+      } else if (data.status === "Cancelled") {
+        clearInterval(checkStatusInterval);
+        window.location.href = ``;
+      }
+    })
+    .catch((error) => {
+      console.error("Error checking transaction status:", error);
+      alert("Transaction status check failed");
+    });
+}, 10000);
+
+
+</script>
+
+
+
+{% endblock %}
